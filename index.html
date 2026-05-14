@@ -1,20 +1,398 @@
-давай остановимся на гитхабе. 
-
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>CurzadeIP Connect</title>
-    <style>
-        body { font-family: sans-serif; background: #0f172a; color: white; text-align: center; padding-top: 50px; }
-        .btn { display: inline-block; padding: 15px 25px; background: #38bdf8; color: #0f172a; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CurzadeIP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080c14;
+      --surface: #0d1421;
+      --surface2: #111827;
+      --border: rgba(56, 189, 248, 0.12);
+      --accent: #38bdf8;
+      --accent2: #0ea5e9;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text: #f0f6ff;
+      --muted: #64748b;
+      --green: #22d3a0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header {
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text span { color: var(--accent); }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--green);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .info-cell {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .info-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .info-value.green { color: var(--green); }
+
+    .card-body {
+      padding: 24px 32px 32px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '→';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+
+    .btn:hover::after { right: 14px; opacity: 1; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #080c14;
+      box-shadow: 0 4px 24px rgba(56,189,248,0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 32px rgba(56,189,248,0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(56,189,248,0.35);
+      background: rgba(56,189,248,0.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .btn-primary .btn-icon { background: rgba(0,0,0,0.15); }
+    .btn-secondary .btn-icon { background: rgba(56,189,248,0.1); }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .sub-url-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .sub-url-box:hover { border-color: rgba(56,189,248,0.35); }
+
+    .sub-url-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      font-size: 14px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .sub-url-box:hover .copy-btn { opacity: 1; }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--green);
+      color: #080c14;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 100px;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .copied-toast.show { transform: translateX(-50%) translateY(0); }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+  </style>
 </head>
 <body>
-    <h1>Подключить CurzadeIP</h1>
-    
-    <a href="happ://import/https://wantuleftix.github.io/vpn-sub/config.txt" class="btn">Добавить в Happ</a>
-    <br>
-    <a href="v2rayng://install-config?url=https://wantulefix.github.io/vpn-sub/config.txt" class="btn">Добавить в v2rayTun</a>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="logo-row">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">Curzade<span>IP</span></div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-dot"></div>
+        Серверы активны · 2 ноды
+      </div>
+
+      <div class="info-grid">
+        <div class="info-cell">
+          <div class="info-label">Протокол</div>
+          <div class="info-value">VLESS · Reality</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Статус</div>
+          <div class="info-value green">● Активна</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Шифрование</div>
+          <div class="info-value">XTLS Vision</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-label">Трафик</div>
+          <div class="info-value">∞ безлимит</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="section-label">Добавить подписку</div>
+
+      <a href="happ://import/https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-primary">
+        <div class="btn-icon">H</div>
+        Добавить в Happ
+      </a>
+
+      <a href="v2rayng://install-config?url=https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-secondary">
+        <div class="btn-icon">▶</div>
+        Добавить в v2rayTun
+      </a>
+
+      <a href="streisand://import/https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-secondary">
+        <div class="btn-icon">⬡</div>
+        Добавить в Streisand
+      </a>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Ссылка подписки</div>
+      <div class="sub-url-box" onclick="copyUrl()">
+        <div class="sub-url-text">https://wantuleftix.github.io/vpn-sub/config.txt</div>
+        <div class="copy-btn">⎘</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">CurzadeIP · Приватный VPN · 2026</div>
+
+  <div class="copied-toast" id="toast">✓ Ссылка скопирована</div>
+
+  <script>
+    function copyUrl() {
+      navigator.clipboard.writeText('https://wantuleftix.github.io/vpn-sub/config.txt');
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    document.querySelectorAll('.btn[href^="happ://"], .btn[href^="v2rayng://"], .btn[href^="streisand://"]').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+        if (!isMobile) {
+          document.querySelector('.sub-url-box').style.borderColor = 'rgba(56,189,248,0.6)';
+          setTimeout(() => {
+            document.querySelector('.sub-url-box').style.borderColor = '';
+          }, 2000);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
