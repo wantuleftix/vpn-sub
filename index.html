@@ -348,17 +348,17 @@
     <div class="card-body">
       <div class="section-label">Добавить подписку</div>
 
-      <a href="happ://import/https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-primary">
+      <a href="happ://import/https://curzade33love.freahm3ach.workers.dev/?token=c7rzad3lov" class="btn btn-primary">
         <div class="btn-icon">H</div>
         Добавить в Happ
       </a>
 
-      <a href="v2rayng://install-config?url=https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-secondary">
+      <a href="v2rayng://install-config?url=https://curzade33love.freahm3ach.workers.dev/?token=c7rzad3lov" class="btn btn-secondary">
         <div class="btn-icon">▶</div>
         Добавить в v2rayTun
       </a>
 
-      <a href="streisand://import/https://wantuleftix.github.io/vpn-sub/config.txt" class="btn btn-secondary">
+      <a href="streisand://import/https://curzade33love.freahm3ach.workers.dev/?token=c7rzad3lov" class="btn btn-secondary">
         <div class="btn-icon">⬡</div>
         Добавить в Streisand
       </a>
@@ -367,7 +367,7 @@
 
       <div class="section-label">Ссылка подписки</div>
       <div class="sub-url-box" onclick="copyUrl()">
-        <div class="sub-url-text">https://wantuleftix.github.io/vpn-sub/config.txt</div>
+        <div class="sub-url-text">Нажмите чтобы скопировать ссылку</div>
         <div class="copy-btn">⎘</div>
       </div>
     </div>
@@ -379,7 +379,7 @@
 
   <script>
     function copyUrl() {
-      navigator.clipboard.writeText('https://wantuleftix.github.io/vpn-sub/config.txt');
+      navigator.clipboard.writeText('https://curzade33love.freahm3ach.workers.dev/?token=c7rzad3lov');
       const toast = document.getElementById('toast');
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2000);
@@ -388,10 +388,8 @@
     // Auto-detect mobile and redirect deeplink
     document.querySelectorAll('.btn[href^="happ://"], .btn[href^="v2rayng://"], .btn[href^="streisand://"]').forEach(btn => {
       btn.addEventListener('click', function(e) {
-        // On desktop browsers, deeplinks won't work — show tip
         const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
         if (!isMobile) {
-          // Still follow the link, but also show URL box highlighted
           document.querySelector('.sub-url-box').style.borderColor = 'rgba(56,189,248,0.6)';
           setTimeout(() => {
             document.querySelector('.sub-url-box').style.borderColor = '';
